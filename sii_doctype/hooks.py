@@ -132,6 +132,7 @@ app_license = "mit"
 # ---------------
 # Hook on document methods and events
 
+after_migrate = ["sii_doctype.custom_fields.sii_doctypes_custom_fields.create_sii_doctypes_custom_fields"]
 # doc_events = {
 # 	"*": {
 # 		"on_update": "method",
