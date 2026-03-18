@@ -53,7 +53,7 @@ def create_sii_doctypes_custom_fields():
         "fieldname": "sii_doctype",
         "label": "Tipo de Documento",
         "fieldtype": "Select",
-        "options": "\nFactura Afecta\nFactura Exenta\nNota de Crédito\nNota de Débito",
+        "options": "\nFactura Afecta\nFactura Exenta\nNota de Crédito\nNota de Débito\nBoleta Afecta\nBoleta Exenta\nComprobantes Pago Electrónico",
         "insert_after": "due_date",
         "reqd": 0,
         "unique": 0,
