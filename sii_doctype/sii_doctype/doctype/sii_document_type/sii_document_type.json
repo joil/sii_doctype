@@ -1,0 +1,174 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 0,
+ "autoname": "field:code",
+ "creation": "2026-09-18 10:40:00.000000",
+ "default_view": "List",
+ "doctype": "DocType",
+ "document_type": "Setup",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "code",
+  "document_name",
+  "disabled",
+  "column_break_main",
+  "is_exempt",
+  "is_credit_note",
+  "is_debit_note",
+  "is_export",
+  "issued_by_company",
+  "sort_code",
+  "applicability_section",
+  "allow_sales",
+  "allow_purchase",
+  "allow_delivery_note",
+  "allow_purchase_receipt"
+ ],
+ "fields": [
+  {
+   "fieldname": "code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Código SII",
+   "length": 5,
+   "reqd": 1,
+   "set_only_once": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "document_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Nombre",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "disabled",
+   "fieldtype": "Check",
+   "label": "Deshabilitado"
+  },
+  {
+   "fieldname": "column_break_main",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_exempt",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Exento"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_credit_note",
+   "fieldtype": "Check",
+   "label": "Nota de Crédito"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_debit_note",
+   "fieldtype": "Check",
+   "label": "Nota de Débito"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_export",
+   "fieldtype": "Check",
+   "label": "Exportación"
+  },
+  {
+   "default": "0",
+   "description": "Marcar si, usado en factura de compra, el folio lo emite esta empresa (p. ej. tipo 46).",
+   "fieldname": "issued_by_company",
+   "fieldtype": "Check",
+   "label": "Emitido por la empresa"
+  },
+  {
+   "fieldname": "sort_code",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "Orden",
+   "read_only": 1
+  },
+  {
+   "fieldname": "applicability_section",
+   "fieldtype": "Section Break",
+   "label": "Aplicable en"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_sales",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Sales Invoice"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_purchase",
+   "fieldtype": "Check",
+   "label": "Purchase Invoice"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_delivery_note",
+   "fieldtype": "Check",
+   "label": "Delivery Note"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_purchase_receipt",
+   "fieldtype": "Check",
+   "label": "Purchase Receipt"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-09-18 10:50:00.000000",
+ "modified_by": "Administrator",
+ "module": "Sii Doctype",
+ "name": "SII Document Type",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager"
+  },
+  {
+   "read": 1,
+   "role": "All"
+  }
+ ],
+ "quick_entry": 1,
+ "row_format": "Dynamic",
+ "search_fields": "code,document_name",
+ "show_title_field_in_link": 1,
+ "sort_field": "sort_code",
+ "sort_order": "ASC",
+ "states": [],
+ "title_field": "document_name",
+ "track_changes": 1,
+ "translated_doctype": 1
+}

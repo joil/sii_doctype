@@ -3,7 +3,7 @@ name = "sii_doctype"
 authors = [
     { name = "Jose Pino", email = "joil@joil.cl"}
 ]
-description = "Almecenar los tipos de documentos soportados por SII Chile"
+description = "Catálogo de tipos de documentos electrónicos (DTE) del SII de Chile"
 requires-python = ">=3.14"
 readme = "README.md"
 dynamic = ["version"]

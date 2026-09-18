@@ -1,14 +1,14 @@
 app_name = "sii_doctype"
 app_title = "Sii Doctype"
 app_publisher = "Jose Pino"
-app_description = "Almecenar los tipos de documentos soportados por SII Chile"
+app_description = "Catálogo de tipos de documentos electrónicos (DTE) del SII de Chile"
 app_email = "joil@joil.cl"
 app_license = "mit"
 
 # Apps
 # ------------------
 
-# required_apps = []
+required_apps = ["erpnext"]
 
 # Each item in the list will be shown as an app in the apps page
 # add_to_apps_screen = [
@@ -42,11 +42,12 @@ app_license = "mit"
 # include js in page
 # page_js = {"page" : "public/js/file.js"}
 
-# include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
-# doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
-# doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
-# doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
+doctype_js = {
+	"Sales Invoice": "public/js/sii_transaction.js",
+	"Purchase Invoice": "public/js/sii_transaction.js",
+	"Delivery Note": "public/js/sii_transaction.js",
+	"Purchase Receipt": "public/js/sii_transaction.js",
+}
 
 # Svg Icons
 # ------------------
@@ -85,14 +86,12 @@ app_license = "mit"
 # Installation
 # ------------
 
-# before_install = "sii_doctype.install.before_install"
-# after_install = "sii_doctype.install.after_install"
+after_install = "sii_doctype.install.after_install"
 
 # Uninstallation
 # ------------
 
-# before_uninstall = "sii_doctype.uninstall.before_uninstall"
-# after_uninstall = "sii_doctype.uninstall.after_uninstall"
+before_uninstall = "sii_doctype.uninstall.before_uninstall"
 
 # Integration Setup
 # ------------------
@@ -132,14 +131,26 @@ app_license = "mit"
 # ---------------
 # Hook on document methods and events
 
-after_migrate = ["sii_doctype.custom_fields.sii_doctypes_custom_fields.create_sii_doctypes_custom_fields"]
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+after_migrate = ["sii_doctype.install.after_migrate"]
+
+doc_events = {
+	"Sales Invoice": {
+		"validate": "sii_doctype.validations.validate_sii_transaction",
+		"before_submit": "sii_doctype.validations.validate_sii_required_on_submit",
+	},
+	"Purchase Invoice": {
+		"validate": "sii_doctype.validations.validate_sii_transaction",
+		"before_submit": "sii_doctype.validations.validate_sii_required_on_submit",
+	},
+	"Delivery Note": {
+		"validate": "sii_doctype.validations.validate_sii_transaction",
+		"before_submit": "sii_doctype.validations.validate_sii_required_on_submit",
+	},
+	"Purchase Receipt": {
+		"validate": "sii_doctype.validations.validate_sii_transaction",
+		"before_submit": "sii_doctype.validations.validate_sii_required_on_submit",
+	},
+}
 
 # Scheduled Tasks
 # ---------------
@@ -165,7 +176,7 @@ after_migrate = ["sii_doctype.custom_fields.sii_doctypes_custom_fields.create_si
 # Testing
 # -------
 
-# before_tests = "sii_doctype.install.before_tests"
+before_tests = "sii_doctype.install.before_tests"
 
 # Extend DocType Class
 # ------------------------------
