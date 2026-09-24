@@ -1,0 +1,89 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-09-18 11:10:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "nro_lin_ref",
+  "tpo_doc_ref",
+  "folio_ref",
+  "fch_ref",
+  "column_break_ref",
+  "cod_ref",
+  "ind_global",
+  "razon_ref"
+ ],
+ "fields": [
+  {
+   "columns": 1,
+   "fieldname": "nro_lin_ref",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Línea",
+   "non_negative": 1,
+   "read_only": 1
+  },
+  {
+   "columns": 2,
+   "fieldname": "tpo_doc_ref",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Tipo de Referencia",
+   "options": "SII Reference Type",
+   "reqd": 1
+  },
+  {
+   "columns": 2,
+   "description": "FolioRef del SII. En órdenes de compra puede ser alfanumérico.",
+   "fieldname": "folio_ref",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Folio / N° referencia"
+  },
+  {
+   "columns": 2,
+   "fieldname": "fch_ref",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Fecha referencia"
+  },
+  {
+   "fieldname": "column_break_ref",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "1 Anula, 2 Corrige texto, 3 Corrige montos. Usado sobre todo en NC/ND.",
+   "fieldname": "cod_ref",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Código referencia",
+   "options": "\n1\n2\n3"
+  },
+  {
+   "default": "0",
+   "description": "IndGlobal=1: la referencia cubre un conjunto de documentos y no exige folio.",
+   "fieldname": "ind_global",
+   "fieldtype": "Check",
+   "label": "Referencia global"
+  },
+  {
+   "fieldname": "razon_ref",
+   "fieldtype": "Small Text",
+   "label": "Razón de la referencia"
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2026-09-18 11:10:00.000000",
+ "modified_by": "Administrator",
+ "module": "Sii Doctype",
+ "name": "SII Document Reference",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "idx",
+ "sort_order": "ASC",
+ "states": []
+}
