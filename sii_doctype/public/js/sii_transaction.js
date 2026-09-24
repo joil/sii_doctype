@@ -20,6 +20,9 @@ function setup_sii_form(frm) {
 			disabled: 0,
 		},
 	}));
+	frm.set_query("tpo_doc_ref", "sii_references", () => ({
+		filters: { disabled: 0 },
+	}));
 }
 
 function apply_sii_type_flags(frm) {

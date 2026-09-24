@@ -18,6 +18,7 @@
   "is_credit_note",
   "is_debit_note",
   "is_export",
+  "is_honorarios",
   "issued_by_company",
   "sort_code",
   "applicability_section",
@@ -83,6 +84,13 @@
   },
   {
    "default": "0",
+   "description": "Boleta de Honorarios Electrónica (BHE) recibida. No es DTE 39/41.",
+   "fieldname": "is_honorarios",
+   "fieldtype": "Check",
+   "label": "Honorarios"
+  },
+  {
+   "default": "0",
    "description": "Marcar si, usado en factura de compra, el folio lo emite esta empresa (p. ej. tipo 46).",
    "fieldname": "issued_by_company",
    "fieldtype": "Check",
@@ -129,7 +137,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-09-18 10:50:00.000000",
+ "modified": "2026-09-18 11:05:00.000000",
  "modified_by": "Administrator",
  "module": "Sii Doctype",
  "name": "SII Document Type",

@@ -3,7 +3,12 @@
 
 import frappe
 
-from sii_doctype.catalog import LEGACY_SII_DOCTYPE_MAP, SII_DOCUMENT_TYPES, TRANSACTION_DOCTYPES
+from sii_doctype.catalog import (
+	LEGACY_SII_DOCTYPE_MAP,
+	SII_DOCUMENT_TYPES,
+	SII_REFERENCE_TYPES,
+	TRANSACTION_DOCTYPES,
+)
 from sii_doctype.custom_fields import remove_legacy_sales_invoice_bill_no, setup_custom_fields
 
 
@@ -21,6 +26,7 @@ def before_tests():
 
 def setup_sii_doctype_app():
 	sync_sii_document_types()
+	sync_sii_reference_types()
 	migrate_legacy_sii_doctype_labels()
 	setup_custom_fields()
 	copy_sales_invoice_bill_no_to_folio()
@@ -36,6 +42,30 @@ def sync_sii_document_types():
 			doc.save(ignore_permissions=True)
 		else:
 			frappe.get_doc({"doctype": "SII Document Type", **values}).insert(ignore_permissions=True)
+
+
+def sync_sii_reference_types():
+	for values in SII_REFERENCE_TYPES:
+		_upsert_reference_type(values)
+
+	for dte in SII_DOCUMENT_TYPES:
+		_upsert_reference_type(
+			{
+				"code": dte["code"],
+				"reference_name": dte["document_name"],
+				"category": "DTE",
+			}
+		)
+
+
+def _upsert_reference_type(values: dict):
+	code = values["code"]
+	if frappe.db.exists("SII Reference Type", code):
+		doc = frappe.get_doc("SII Reference Type", code)
+		doc.update(values)
+		doc.save(ignore_permissions=True)
+	else:
+		frappe.get_doc({"doctype": "SII Reference Type", **values}).insert(ignore_permissions=True)
 
 
 def migrate_legacy_sii_doctype_labels():

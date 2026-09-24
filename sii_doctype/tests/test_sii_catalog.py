@@ -5,7 +5,7 @@ import frappe
 from frappe.tests import IntegrationTestCase
 from frappe.utils import add_days, nowdate
 
-from sii_doctype.catalog import LEGACY_SII_DOCTYPE_MAP, SII_DOCUMENT_TYPES
+from sii_doctype.catalog import LEGACY_SII_DOCTYPE_MAP, SII_DOCUMENT_TYPES, SII_REFERENCE_TYPES
 from sii_doctype.install import setup_sii_doctype_app
 from sii_doctype.validations import (
 	validate_sii_required_on_submit,
@@ -23,9 +23,9 @@ class TestSIICatalog(IntegrationTestCase):
 		codes = {row["code"] for row in SII_DOCUMENT_TYPES}
 		self.assertEqual(
 			codes,
-			{"33", "34", "39", "41", "43", "46", "52", "56", "61", "110", "111", "112"},
+			{"33", "34", "39", "41", "43", "46", "48", "52", "56", "61", "110", "111", "112"},
 		)
-		self.assertEqual(len(SII_DOCUMENT_TYPES), 12)
+		self.assertEqual(len(SII_DOCUMENT_TYPES), 13)
 
 	def test_sync_creates_document_types(self):
 		for row in SII_DOCUMENT_TYPES:
@@ -46,6 +46,10 @@ class TestSIICatalog(IntegrationTestCase):
 			folio = frappe.get_meta(doctype).get_field("sii_folio")
 			self.assertIsNotNone(folio, f"falta sii_folio en {doctype}")
 			self.assertEqual(folio.fieldtype, "Int")
+			refs = frappe.get_meta(doctype).get_field("sii_references")
+			self.assertIsNotNone(refs, f"falta sii_references en {doctype}")
+			self.assertEqual(refs.fieldtype, "Table")
+			self.assertEqual(refs.options, "SII Document Reference")
 
 	def test_sales_invoice_no_longer_has_custom_bill_no(self):
 		self.assertFalse(
@@ -56,6 +60,20 @@ class TestSIICatalog(IntegrationTestCase):
 		self.assertEqual(LEGACY_SII_DOCTYPE_MAP["Factura Afecta"], "33")
 		self.assertEqual(LEGACY_SII_DOCTYPE_MAP["Nota de Crédito"], "61")
 		self.assertEqual(LEGACY_SII_DOCTYPE_MAP["Factura de Compra"], "46")
+
+	def test_honorarios_is_purchase_only(self):
+		doc = frappe.get_doc("SII Document Type", "48")
+		self.assertEqual(doc.document_name, "Boleta de Honorarios Electrónica")
+		self.assertEqual(doc.allow_purchase, 1)
+		self.assertEqual(doc.allow_sales, 0)
+		self.assertEqual(doc.is_honorarios, 1)
+
+	def test_honorarios_not_allowed_on_sales_invoice(self):
+		doc = frappe.new_doc("Sales Invoice")
+		doc.company = frappe.db.get_value("Company", {}, "name")
+		doc.sii_doctype = "48"
+		doc.sii_folio = 12
+		self.assertRaises(frappe.ValidationError, validate_sii_transaction, doc)
 
 	def test_guia_is_not_allowed_on_sales_invoice(self):
 		doc = frappe.new_doc("Sales Invoice")
@@ -96,6 +114,23 @@ class TestSIICatalog(IntegrationTestCase):
 		first.insert(ignore_permissions=True)
 		second = _make_sales_invoice(company, customer, item, sii_doctype="33", sii_folio=88001)
 		self.assertRaises(frappe.ValidationError, second.insert, ignore_permissions=True)
+
+	def test_reference_types_include_orden_de_compra(self):
+		codes = {row["code"] for row in SII_REFERENCE_TYPES}
+		self.assertTrue({"801", "802", "803", "HES", "SET"}.issubset(codes))
+		for row in SII_REFERENCE_TYPES:
+			self.assertTrue(frappe.db.exists("SII Reference Type", row["code"]))
+		self.assertEqual(frappe.db.get_value("SII Reference Type", "801", "reference_name"), "Orden de Compra")
+		self.assertEqual(frappe.db.get_value("SII Reference Type", "33", "category"), "DTE")
+
+	def test_reference_requires_folio(self):
+		doc = frappe.new_doc("Sales Invoice")
+		doc.company = frappe.db.get_value("Company", {}, "name")
+		doc.append(
+			"sii_references",
+			{"tpo_doc_ref": "801", "folio_ref": "", "ind_global": 0},
+		)
+		self.assertRaises(frappe.ValidationError, validate_sii_transaction, doc)
 
 
 def _ensure_customer():

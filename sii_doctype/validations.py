@@ -50,6 +50,9 @@ def is_outgoing_document(doc, sii_type) -> bool:
 def validate_sii_transaction(doc, method=None):
 	if doc.doctype not in TRANSACTION_DOCTYPES:
 		return
+
+	_validate_references(doc)
+
 	if not doc.meta.has_field("sii_doctype"):
 		return
 
@@ -159,6 +162,8 @@ def _validate_return_against(doc, sii_type):
 
 
 def _validate_exempt_taxes(doc, sii_type):
+	if cint(sii_type.get("is_honorarios")):
+		return
 	if not cint(sii_type.is_exempt):
 		return
 	if flt(doc.get("total_taxes_and_charges")) > 0.005:
@@ -193,3 +198,28 @@ def _validate_unique_folio(doc, sii_type, folio: int):
 			_(doc.doctype), duplicate, sii_type.code, folio
 		)
 	)
+
+
+def _validate_references(doc):
+	if not doc.meta.has_field("sii_references"):
+		return
+
+	for i, row in enumerate(doc.get("sii_references") or [], start=1):
+		row.nro_lin_ref = i
+		if not row.tpo_doc_ref:
+			frappe.throw(_("La referencia SII #{0} debe indicar el tipo (TpoDocRef).").format(i))
+
+		if not frappe.db.exists("SII Reference Type", row.tpo_doc_ref):
+			frappe.throw(_("El tipo de referencia SII {0} no existe.").format(row.tpo_doc_ref))
+
+		ref_type = frappe.get_cached_doc("SII Reference Type", row.tpo_doc_ref)
+		if cint(ref_type.disabled):
+			frappe.throw(_("El tipo de referencia SII {0} está deshabilitado.").format(ref_type.code))
+
+		if row.cod_ref and str(row.cod_ref) not in {"1", "2", "3"}:
+			frappe.throw(_("El código de referencia de la línea {0} debe ser 1, 2 o 3.").format(i))
+
+		if not cint(row.ind_global) and not (row.folio_ref or "").strip():
+			frappe.throw(
+				_("La referencia SII #{0} debe tener folio, salvo que sea una referencia global.").format(i)
+			)

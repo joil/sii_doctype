@@ -1,4 +1,4 @@
-"""Catálogo oficial de DTE electrónicos del SII de Chile."""
+"""Catálogo de documentos tributarios electrónicos del SII de Chile (DTE y BHE)."""
 
 from __future__ import annotations
 
@@ -16,6 +16,7 @@ SII_DOCUMENT_TYPES: tuple[dict, ...] = (
 		"is_credit_note": 0,
 		"is_debit_note": 0,
 		"is_export": 0,
+		"is_honorarios": 0,
 	},
 	{
 		"code": "34",
@@ -29,6 +30,7 @@ SII_DOCUMENT_TYPES: tuple[dict, ...] = (
 		"is_credit_note": 0,
 		"is_debit_note": 0,
 		"is_export": 0,
+		"is_honorarios": 0,
 	},
 	{
 		"code": "39",
@@ -42,6 +44,7 @@ SII_DOCUMENT_TYPES: tuple[dict, ...] = (
 		"is_credit_note": 0,
 		"is_debit_note": 0,
 		"is_export": 0,
+		"is_honorarios": 0,
 	},
 	{
 		"code": "41",
@@ -55,6 +58,7 @@ SII_DOCUMENT_TYPES: tuple[dict, ...] = (
 		"is_credit_note": 0,
 		"is_debit_note": 0,
 		"is_export": 0,
+		"is_honorarios": 0,
 	},
 	{
 		"code": "43",
@@ -68,6 +72,7 @@ SII_DOCUMENT_TYPES: tuple[dict, ...] = (
 		"is_credit_note": 0,
 		"is_debit_note": 0,
 		"is_export": 0,
+		"is_honorarios": 0,
 	},
 	{
 		"code": "46",
@@ -81,6 +86,21 @@ SII_DOCUMENT_TYPES: tuple[dict, ...] = (
 		"is_credit_note": 0,
 		"is_debit_note": 0,
 		"is_export": 0,
+		"is_honorarios": 0,
+	},
+	{
+		"code": "48",
+		"document_name": "Boleta de Honorarios Electrónica",
+		"allow_sales": 0,
+		"allow_purchase": 1,
+		"allow_delivery_note": 0,
+		"allow_purchase_receipt": 0,
+		"issued_by_company": 0,
+		"is_exempt": 1,
+		"is_credit_note": 0,
+		"is_debit_note": 0,
+		"is_export": 0,
+		"is_honorarios": 1,
 	},
 	{
 		"code": "52",
@@ -94,6 +114,7 @@ SII_DOCUMENT_TYPES: tuple[dict, ...] = (
 		"is_credit_note": 0,
 		"is_debit_note": 0,
 		"is_export": 0,
+		"is_honorarios": 0,
 	},
 	{
 		"code": "56",
@@ -107,6 +128,7 @@ SII_DOCUMENT_TYPES: tuple[dict, ...] = (
 		"is_credit_note": 0,
 		"is_debit_note": 1,
 		"is_export": 0,
+		"is_honorarios": 0,
 	},
 	{
 		"code": "61",
@@ -120,6 +142,7 @@ SII_DOCUMENT_TYPES: tuple[dict, ...] = (
 		"is_credit_note": 1,
 		"is_debit_note": 0,
 		"is_export": 0,
+		"is_honorarios": 0,
 	},
 	{
 		"code": "110",
@@ -133,6 +156,7 @@ SII_DOCUMENT_TYPES: tuple[dict, ...] = (
 		"is_credit_note": 0,
 		"is_debit_note": 0,
 		"is_export": 1,
+		"is_honorarios": 0,
 	},
 	{
 		"code": "111",
@@ -146,6 +170,7 @@ SII_DOCUMENT_TYPES: tuple[dict, ...] = (
 		"is_credit_note": 0,
 		"is_debit_note": 1,
 		"is_export": 1,
+		"is_honorarios": 0,
 	},
 	{
 		"code": "112",
@@ -159,6 +184,7 @@ SII_DOCUMENT_TYPES: tuple[dict, ...] = (
 		"is_credit_note": 1,
 		"is_debit_note": 0,
 		"is_export": 1,
+		"is_honorarios": 0,
 	},
 )
 
@@ -186,3 +212,28 @@ ALLOW_FIELD_BY_DOCTYPE = {
 	"Delivery Note": "allow_delivery_note",
 	"Purchase Receipt": "allow_purchase_receipt",
 }
+
+# TpoDocRef del nodo Referencia (instructivo de formato DTE del SII).
+SII_REFERENCE_TYPES: tuple[dict, ...] = (
+	{"code": "801", "reference_name": "Orden de Compra", "category": "Otro documento"},
+	{"code": "802", "reference_name": "Nota de Pedido", "category": "Otro documento"},
+	{"code": "803", "reference_name": "Contrato", "category": "Otro documento"},
+	{"code": "804", "reference_name": "Resolución", "category": "Otro documento"},
+	{"code": "805", "reference_name": "Proceso ChileCompra", "category": "Otro documento"},
+	{"code": "806", "reference_name": "Ficha ChileCompra", "category": "Otro documento"},
+	{"code": "807", "reference_name": "DUS", "category": "Otro documento"},
+	{"code": "808", "reference_name": "B/L (Conocimiento de Embarque)", "category": "Otro documento"},
+	{"code": "809", "reference_name": "AWB (Airway Bill)", "category": "Otro documento"},
+	{"code": "810", "reference_name": "MIC/DTA", "category": "Otro documento"},
+	{"code": "811", "reference_name": "Carta de Porte", "category": "Otro documento"},
+	{
+		"code": "812",
+		"reference_name": "Resolución del SNA que califica Servicios de Exportación",
+		"category": "Otro documento",
+	},
+	{"code": "813", "reference_name": "Pasaporte", "category": "Otro documento"},
+	{"code": "814", "reference_name": "Certificado de Depósito Bolsa Prod. Chile", "category": "Otro documento"},
+	{"code": "815", "reference_name": "Vale de Prenda Bolsa Prod. Chile", "category": "Otro documento"},
+	{"code": "HES", "reference_name": "Hoja de Entrada de Servicios (ChileCompra)", "category": "Otro documento"},
+	{"code": "SET", "reference_name": "Set de Pruebas", "category": "Otro documento"},
+)

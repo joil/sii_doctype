@@ -54,6 +54,15 @@ def _transaction_fields(insert_after: str) -> list[dict]:
 			"reqd": 0,
 			"description": "Folio del DTE. Debe ser mayor a 0. Único por empresa y tipo.",
 		},
+		{
+			**COMMON_FIELD_FLAGS,
+			"fieldname": "sii_references",
+			"label": "Referencias SII",
+			"fieldtype": "Table",
+			"options": "SII Document Reference",
+			"insert_after": "sii_folio",
+			"description": "Nodo Referencia del DTE: 801 Orden de Compra, 802 Nota de Pedido, 803 Contrato, u otro DTE.",
+		},
 	]
 
 
@@ -75,6 +84,6 @@ def remove_legacy_sales_invoice_bill_no():
 
 
 def remove_custom_fields():
-	fields = ["sii_section", "sii_doctype", "sii_column_break", "sii_folio"]
+	fields = ["sii_section", "sii_doctype", "sii_column_break", "sii_folio", "sii_references"]
 	delete_custom_fields({doctype: fields for doctype in TRANSACTION_DOCTYPES})
 	remove_legacy_sales_invoice_bill_no()
